@@ -1,9 +1,12 @@
 package org.opendevup.dao;
-import java.util.List;import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query; import org.opendevup.entities.Categorie;
+
+import org.opendevup.entities.Categorie;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.List;
 @Repository
 @Transactional
 public class CategorieDaoImpl implements ICategorieDao{
@@ -16,18 +19,15 @@ public class CategorieDaoImpl implements ICategorieDao{
     }
     @Override
     public List<Categorie> findAll() {
-        Query req=entityManager.createQuery("select c from Categorie c");
-        return req.getResultList();
+        return entityManager.createQuery("select c from Categorie c").getResultList();
     }
     @Override
     public Categorie findOne(Long id) {
-        Categorie c=entityManager.find(Categorie.class,id);
-        return c;
+        return entityManager.find(Categorie.class,id);
     }
     @Override
     public void remove(Long id) {
-        Categorie c=findOne(id);
-        entityManager.remove(c);
+        entityManager.remove(findOne(id));
     }
     @Override
     public void update(Categorie c) {

@@ -11,9 +11,7 @@ import org.springframework.context.ApplicationContext;
 import java.util.List;
 
 @SpringBootApplication
-
 public class JpaSpringApplication {
-
     public static void main(String[] args) {
         ApplicationContext ctx=SpringApplication.run(JpaSpringApplication.class, args);
 
@@ -41,7 +39,5 @@ public class JpaSpringApplication {
         System.out.println("Consulter les produits d'une catégorie :");
         List<Produit> prodsParCat=produitDao.findByCategorie(1L);
         prodsParCat.forEach(p->System.out.println(p.getDesignation()));
-
     }
-
 }

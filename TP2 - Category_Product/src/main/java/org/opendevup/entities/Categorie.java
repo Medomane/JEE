@@ -14,7 +14,6 @@ public class Categorie implements Serializable {
 
     public Categorie() {
     }
-
     public Categorie(String nomCategorie) {
         this.nomCategorie = nomCategorie;
     }
@@ -26,23 +25,18 @@ public class Categorie implements Serializable {
     public Long getIdCategorie() {
         return idCategorie;
     }
-
     public void setIdCategorie(Long idCategorie) {
         this.idCategorie = idCategorie;
     }
-
     public String getNomCategorie() {
         return nomCategorie;
     }
-
     public void setNomCategorie(String nomCategorie) {
         this.nomCategorie = nomCategorie;
     }
-
     public Collection<Produit> getProduits() {
         return produits;
     }
-
     public void setProduits(Collection<Produit> produits) {
         this.produits = produits;
     }

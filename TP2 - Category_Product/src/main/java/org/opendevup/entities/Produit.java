@@ -24,31 +24,24 @@ public class Produit implements Serializable {
     public Long getIdProduit() {
         return idProduit;
     }
-
     public void setIdProduit(Long idProduit) {
         this.idProduit = idProduit;
     }
-
     public String getDesignation() {
         return designation;
     }
-
     public void setDesignation(String designation) {
         this.designation = designation;
     }
-
     public double getPrix() {
         return prix;
     }
-
     public void setPrix(double prix) {
         this.prix = prix;
     }
-
     public Categorie getCategorie() {
         return categorie;
     }
-
     public void setCategorie(Categorie categorie) {
         this.categorie = categorie;
     }

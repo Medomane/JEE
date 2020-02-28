@@ -6,6 +6,7 @@ import javax.persistence.Query;
 import javax.transaction.Transactional;
 import org.opendevup.entities.Produit;
 import org.springframework.stereotype.Repository;
+
 @Repository
 @Transactional
 public class ProduitDaoImpl implements IProduitDao {
@@ -18,18 +19,15 @@ public class ProduitDaoImpl implements IProduitDao {
     }
     @Override
     public List<Produit> findAll() {
-        Query req=entityManager.createQuery("select p from Produit p");
-        return req.getResultList();
+        return entityManager.createQuery("select p from Produit p").getResultList();
     }
     @Override
     public Produit findOne(Long id) {
-        Produit p=entityManager.find(Produit.class, id);
-        return p;
+        return entityManager.find(Produit.class, id);
     }
     @Override
     public void remove(Long id) {
-        Produit p=entityManager.find(Produit.class, id);
-        entityManager.remove(p);
+        entityManager.remove(entityManager.find(Produit.class, id));
     }
     @Override
     public List<Produit> findByDesignation(String des) {
