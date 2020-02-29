@@ -1,6 +1,8 @@
 package org.bank.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -14,6 +16,7 @@ public class Operation {
     private Long id ;
     private Date dateOperation ;
     private double montant ;
+    //@JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "compte_id")
     private Compte compte ;

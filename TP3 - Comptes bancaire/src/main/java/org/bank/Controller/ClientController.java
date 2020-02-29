@@ -13,7 +13,7 @@ public class ClientController {
     public ClientController(ClientRepository clients) {
         this.clients = clients;
     }
-    @GetMapping({"/Clients/index","/Clients"})
+    @GetMapping("/Clients")
     public List<Client> Clients(){
         return clients.findAll();
     }

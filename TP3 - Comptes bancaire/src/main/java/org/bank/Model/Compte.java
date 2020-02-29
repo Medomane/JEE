@@ -1,5 +1,8 @@
 package org.bank.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
@@ -13,18 +16,24 @@ public abstract class Compte {
     private Long id ;
     private double solde ;
     private Date dateCreation ;
+
+    //@JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     private Client client ;
+
+    //@JsonBackReference
     @OneToMany(mappedBy="compte")
     private Collection<Operation> operations;
 
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
+
     public double getSolde() {
         return solde;
     }
@@ -41,7 +50,7 @@ public abstract class Compte {
         this.dateCreation = dateCreation;
     }
 
-    public Client getClient() {
+    /*public Client getClient() {
         return client;
     }
 
@@ -55,5 +64,5 @@ public abstract class Compte {
 
     public void setOperations(Collection<Operation> operations) {
         this.operations = operations;
-    }
+    }*/
 }
