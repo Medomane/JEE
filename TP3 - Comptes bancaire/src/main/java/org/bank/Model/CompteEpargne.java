@@ -4,7 +4,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("CE")
+@DiscriminatorValue("ce")
 public class CompteEpargne extends Compte {
         private double taux;
 }

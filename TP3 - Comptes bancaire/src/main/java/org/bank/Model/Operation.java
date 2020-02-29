@@ -6,7 +6,7 @@ import java.util.Date;
 
 @Entity
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="TYPE",length=2)
+@DiscriminatorColumn(name="type",length=2)
 
 public class Operation {
     @Id

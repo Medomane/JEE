@@ -6,7 +6,7 @@ import java.util.Date;
 
 @Entity
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn( name="TYPE_CPTE", discriminatorType= DiscriminatorType.STRING,length=2)
+@DiscriminatorColumn( name="type_compte", discriminatorType= DiscriminatorType.STRING,length=2)
 public class Compte {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
