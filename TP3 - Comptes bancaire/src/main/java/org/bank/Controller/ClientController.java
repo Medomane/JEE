@@ -19,7 +19,7 @@ public class ClientController {
     }
     @GetMapping("/Clients/{nom}")
     public List<Client> ClientsByName(@PathVariable String nom){
-        return clients.findAllByNom(nom);
+        return clients.findByNomContains(nom);
     }
     @PostMapping("/Clients/add")
     public Client Add(@RequestBody Client clt){
