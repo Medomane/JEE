@@ -6,12 +6,12 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@JsonIgnoreProperties
-public class Category {
+@JsonIgnoreProperties(ignoreUnknown=true)
+public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id ;
-    private String name ;
-    @OneToMany(mappedBy="category",fetch=FetchType.LAZY)
-    private List<Product> products;
+    private String nom ;
+    @OneToMany(mappedBy = "client",fetch = FetchType.LAZY)
+    private List<Compte> comptes ;
 }
