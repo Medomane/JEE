@@ -1,13 +1,9 @@
 package org.bank.Controller;
 
-import org.bank.Model.Client;
-import org.bank.Model.Compte;
 import org.bank.Model.CompteCourant;
 import org.bank.Model.CompteEpargne;
 import org.bank.Repositories.CompteRepository;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 public class CompteController {
