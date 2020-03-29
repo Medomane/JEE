@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout" lang="en">
+<body>
+    <div layout:fragment="content">
+        <div class="container">
+            <br/><br/><br/><br/><br/>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>id</th><th>designation</th><th>price</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="p:${products.content}">
+                    <td th:text="${p.id}"></td>
+                    <td th:text="${p.designation}"></td>
+                    <td th:text="${p.price}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                    <li th:class="${currentPage == 0}?'page-item disabled':'page-item'">
+                        <a class="page-link" th:href="@{search(page=${currentPage - 1},mc=${mc})}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    <li th:each="p:${pages}" th:class="(${currentPage==p}? 'page-item active': 'page-item')">
+                        <a th:href="@{search(page=${p},mc=${mc})}" th:text="${p}" class="page-link"></a>
+                    </li>
+
+                    <li th:class="${currentPage == products.getTotalPages()-1}?'page-item disabled':'page-item'">
+                        <a class="page-link" th:href="@{search(page=${currentPage + 1},mc=${mc})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <script>
+            $(function(){
+                $('ul.navbar-nav li').eq(1).addClass('active');
+            });
+        </script>
+    </div>
+</body>
+</html>

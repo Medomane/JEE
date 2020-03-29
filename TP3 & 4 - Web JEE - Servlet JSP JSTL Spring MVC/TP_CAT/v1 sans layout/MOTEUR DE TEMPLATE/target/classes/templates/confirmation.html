@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout" lang="en">
+    <body>
+        <div layout:fragment="content">
+            <table class="position-absolute w-100 h-100">
+                <tr>
+                    <td style="vertical-align:middle;">
+                        <div class="w-25 m-auto">
+                            <div class="card bg-light mb-3" style="max-width: 18rem;">
+                                <div class="card-header" th:text="${'ID : '+ product.id}"></div>
+                                <div class="card-body">
+                                    <h5 class="card-title" th:text="${'Designation : '+ product.designation}"></h5>
+                                    <p class="card-text" th:text="${'Price : '+ product.price}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <script>
+                $(function(){
+                    $('ul.navbar-nav li').eq(2).addClass('active');
+                });
+            </script>
+        </div>
+    </body>
+</html>

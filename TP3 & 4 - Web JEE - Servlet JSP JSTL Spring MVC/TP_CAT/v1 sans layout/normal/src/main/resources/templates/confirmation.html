@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="/">TP_CAT_MVC</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/search">Products</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/form">Add product</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0" action="search?page=0" method="GET">
+                    <input name="mc" class="form-control mr-sm-2" type="search" placeholder="Keyword" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+        <table class="position-absolute w-100 h-100">
+            <tr>
+                <td style="vertical-align:middle;">
+                    <div class="w-25 m-auto">
+                        <div class="card bg-light mb-3" style="max-width: 18rem;">
+                            <div class="card-header" th:text="${'ID : '+ product.id}"></div>
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${'Designation : '+ product.designation}"></h5>
+                                <p class="card-text" th:text="${'Price : '+ product.price}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
