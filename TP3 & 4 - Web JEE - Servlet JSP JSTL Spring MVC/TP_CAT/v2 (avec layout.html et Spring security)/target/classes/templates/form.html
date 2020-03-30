@@ -12,6 +12,7 @@
                             <form th:action="${'/admin/save'}" method="post">
                                 <div th:object="${product}">
                                     <div class="form-group">
+                                        <input type="hidden" name="_csrf" value="61390c32-08f8-4c85-b55afe20bc7f0913" />
                                         <input class="form-control" type="hidden" name="id" th:value="*{id}"/>
                                     </div>
                                     <div class="form-group">

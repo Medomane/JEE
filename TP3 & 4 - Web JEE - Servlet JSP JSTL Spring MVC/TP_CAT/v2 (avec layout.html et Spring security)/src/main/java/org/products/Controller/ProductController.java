@@ -18,13 +18,14 @@ import javax.validation.Valid;
 @RestController
 public class ProductController {
     private final ProductRepository productRepository;
-
     public ProductController(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
-
     @RequestMapping(value="/products",method= RequestMethod.GET)
-    public ModelAndView products(Model model, @RequestParam(name="page",defaultValue="0")int page, @RequestParam(name="size",defaultValue="4")int size, @RequestParam(name="mc",defaultValue="")String keyword){
+    public ModelAndView products(Model model,
+                                 @RequestParam(name="page",defaultValue="0")int page,
+                                 @RequestParam(name="size",defaultValue="4")int size,
+                                 @RequestParam(name="mc",defaultValue="")String keyword){
         Page<Product> pageProducts = productRepository.search("%"+keyword+"%", PageRequest.of(page, size));
         model.addAttribute("products", pageProducts);
         model.addAttribute("currentPage", page);

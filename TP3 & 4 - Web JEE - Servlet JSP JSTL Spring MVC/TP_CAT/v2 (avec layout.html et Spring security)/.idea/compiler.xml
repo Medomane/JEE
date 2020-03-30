@@ -9,6 +9,7 @@
         <module name="TP_CAT" />
         <module name="v2" />
         <module name="normal" />
+        <module name="v2 (avec layout.html et Spring security)" />
         <module name="BASÉES SUR LE MOTEUR DE TEMPLATE" />
       </profile>
     </annotationProcessing>
@@ -19,6 +20,7 @@
       <module name="TP_CAT" options="-parameters" />
       <module name="normal" options="-parameters" />
       <module name="v2" options="-parameters" />
+      <module name="v2 (avec layout.html et Spring security)" options="-parameters" />
     </option>
   </component>
 </project>

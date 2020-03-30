@@ -12,13 +12,10 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
     private final DataSource dataSource;
-
     public SecurityConfig(DataSource dataSource) {
         this.dataSource = dataSource;
     }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource).
@@ -26,22 +23,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 authoritiesByUsernameQuery("select username as principal, role, active from users where username = ?").rolePrefix("ROLE_").
                 passwordEncoder(new BCryptPasswordEncoder());
     }
-
     protected void configure(HttpSecurity http) throws Exception {
         http.formLogin();
         http.authorizeRequests().antMatchers("/admin/*").hasRole("ADMIN");
         http.exceptionHandling().accessDeniedPage("/403");
-
-        /*http
-                .authorizeRequests()
-                .antMatchers("/user/*").hasRole("ADMIN")
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll();*/
     }
 }
