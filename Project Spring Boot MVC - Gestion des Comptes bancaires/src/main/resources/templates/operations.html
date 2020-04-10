@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      data-layout-decorate="layout" lang="fr">
+    <body>
+        <div layout:fragment="content">
+            <br/><br/><br/>
+
+            <!-- Payment modal -->
+            <div class="modal fade" id="addPayment" tabindex="-1" role="dialog" aria-labelledby="addPaymentTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addPaymentTitle">Versement</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="addPayment_form">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="paymentMnt">Montant :</label>
+                                    <input type="number" required="required" class="form-control" id="paymentMnt">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                <button type="submit" class="btn btn-primary addPayment_btn">Valider <i class="fas fa-spinner fa-pulse d-none"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Withdrawal modal -->
+            <div class="modal fade" id="addWithdrawal" tabindex="-1" role="dialog" aria-labelledby="addWithdrawalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="WithdrawalTitle">Retrait</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="addWithdrawal_form">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="withdrawalMnt">Montant :</label>
+                                    <input type="number" required="required" class="form-control" id="withdrawalMnt">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                <button type="submit" class="btn btn-primary addWithdrawal_btn">Valider <i class="fas fa-spinner fa-pulse d-none"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Transfer modal -->
+            <div class="modal fade" id="addTransfer" tabindex="-1" role="dialog" aria-labelledby="addTransferTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addTransferTitle">Virement</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="addTransfer_form">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="transferMnt">Montant :</label>
+                                    <input type="number" required="required" class="form-control" id="transferMnt">
+                                </div>
+                                <div class="form-group">
+                                    <label for="transferMnt">Destinataire :</label>
+                                    <select class="form-control" id="destination">
+                                        <option th:each="c:${comptes}" th:if="${c.getNumCompte() != compte_id}" th:value="${c.getNumCompte()}" th:text="${c.getNumCompte()}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                <button type="submit" class="btn btn-primary addTransfer_btn">Valider <i class="fas fa-spinner fa-pulse d-none"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="card border-primary mb-3">
+                    <div class="card-header">
+                        <div class="float-right">
+                            <div class="btn btn-primary" data-toggle="modal" data-target="#addTransfer"><i class="fas fa-exchange-alt"></i> Virement</div>
+                            <div class="btn btn-danger" data-toggle="modal" data-target="#addPayment"><i class="fas fa-hand-holding-usd"></i> Versement</div>
+                            <div class="btn btn-warning" data-toggle="modal" data-target="#addWithdrawal"><i class="fas fa-dollar-sign"></i> Retrait</div>
+                        </div>
+                        <div>
+                            <img class="mr-1" th:src="${'/images/avatars/'+operations.getContent().get(0).getCompte().getClient().nom+'.png'}" width="40px" height="40px">
+                            <div class="d-inline-block" style="position:relative;top:2.5px;" th:text="${operations.getContent().get(0).getCompte().getClient().nom}"></div>
+                            <div class="d-inline-block" style="position:relative;top:2.5px;">
+                                <span th:text="${'('+operations.getContent().get(0).getCompte().getNumCompte()+' - Solde : '}"></span>
+                                <span id="solde_badge" class="badge badge-primary" th:text="${operations.getContent().get(0).getCompte().getSolde()}"></span>)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body text-primary" style="background-color:floralwhite;">
+                        <div class="liste">
+                            <div th:fragment="liste">
+                                <table class="table w-100 m-auto">
+                                    <thead>
+                                        <tr>
+                                            <th>Date d'opération</th>
+                                            <th>Montant</th>
+                                            <th>Type</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="o:${operations}">
+                                            <td th:text="${o.dateOperation}"></td>
+                                            <td th:text="${o.montant}"></td>
+                                            <td th:text="${o.getClass().getSimpleName()}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-end">
+                                        <li th:class="${page == 0}?'page-item disabled':'page-item'">
+                                            <a class="page-link" href="#" th:onclick="'navigate(\''+${'/admin/Operations/'+compte_id+'?page='+(page-1)}+'\');return false;'" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+
+                                        <li th:each="p:${pages}" th:class="(${page==p}? 'page-item active': 'page-item')">
+                                            <a href="#" th:onclick="'navigate(\''+${'/admin/Operations/'+compte_id+'?page='+p}+'\');return false;'" th:text="${p}" class="page-link"></a>
+                                        </li>
+
+                                        <li th:class="${page == operations.getTotalPages()-1}?'page-item disabled':'page-item'">
+                                            <a class="page-link" href="#" th:onclick="'navigate(\''+${'/admin/Operations/'+compte_id+'?page='+(page+1)}+'\');return false;'" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script th:inline="javascript">
+                $(function(){
+                    $("#addPayment_form").submit(function (event) {
+                        event.preventDefault();
+                        payment();
+                    });
+                    $("#addWithdrawal_form").submit(function (event) {
+                        event.preventDefault();
+                        withdrawal();
+                    });
+                    $("#addTransfer_form").submit(function (event) {
+                        event.preventDefault();
+                        transfer();
+                    });
+                });
+                function navigate(path){
+                    window.history.pushState('','',path);
+                    $.ajax({
+                        type: 'get',
+                        url:path+'&type=other',
+                        success: function(data){
+                            $('.liste').html(data);
+                        },
+                    })
+                }
+                function payment(){
+                    let btn = $('.addPayment_btn');
+                    btn.prop("disabled", true);
+                    $('.addPayment_btn .fa-spinner').removeClass('d-none');
+                    /*<![CDATA[*/
+                    let compte_id = /*[[${compte_id}]]*/ '';
+                    /*]]>*/
+                    $.ajax({
+                        type: 'get',
+                        url:"/admin/Operations?compte_id="+compte_id+"&montant="+$("#paymentMnt").val()+"&type=v",
+                        success: function(data){
+                            let dt = JSON.parse(data);
+                            $("#solde_badge").text(parseFloat(dt.solde));
+                            setTimeout(function(){
+                                btn.prop("disabled", false);
+                                $('.addPayment_btn .fa-spinner').addClass('d-none');
+                                $("#addPayment .btn-secondary").click();
+                            },1000);
+                        },
+                        error:function(){
+                            btn.prop("disabled", false);
+                            $('.addPayment_btn .fa-spinner').addClass('d-none');
+                            $("#addPayment .btn-secondary").click();
+                        }
+                    })
+
+                }
+                function withdrawal(){
+                    let btn = $('.addWithdrawal_btn');
+                    btn.prop("disabled", true);
+                    $('.addWithdrawal_btn .fa-spinner').removeClass('d-none');
+                    /*<![CDATA[*/
+                    let compte_id = /*[[${compte_id}]]*/ '';
+                    /*]]>*/
+                    $.ajax({
+                        type: 'get',
+                        url:"/admin/Operations?compte_id="+compte_id+"&montant="+$("#withdrawalMnt").val()+"&type=r",
+                        success: function(data){
+                            let dt = JSON.parse(data);
+                            $("#solde_badge").text(parseFloat(dt.solde));
+                            setTimeout(function(){
+                                btn.prop("disabled", false);
+                                $('.addWithdrawal_btn .fa-spinner').addClass('d-none');
+                                $("#addWithdrawal .btn-secondary").click();
+                            },1000);
+                        },
+                        error:function(e){
+                            console.log(e);
+                            btn.prop("disabled", false);
+                            $('.addWithdrawal_btn .fa-spinner').addClass('d-none');
+                            $("#addWithdrawal .btn-secondary").click();
+                        }
+                    })
+                }
+                function transfer(){
+                    let btn = $('.addTransfer_btn');
+                    btn.prop("disabled", true);
+                    $('.addTransfer_btn .fa-spinner').removeClass('d-none');
+                    /*<![CDATA[*/
+                    let compte_id = /*[[${compte_id}]]*/ '';
+                    /*]]>*/
+                    $.ajax({
+                        type: 'get',
+                        url:"/admin/Operations/virement?de="+compte_id+"&vers="+$("#destination").val()+"&montant="+$("#transferMnt").val(),
+                        success: function(data){
+                            let dt = JSON.parse(data);
+                            $("#solde_badge").text(parseFloat(dt.solde));
+                            setTimeout(function(){
+                                btn.prop("disabled", false);
+                                $('.addTransfer_btn .fa-spinner').addClass('d-none');
+                                $("#addTransfer .btn-secondary").click();
+                            },1000);
+                        },
+                        error:function(e){
+                            console.log(e);
+                            btn.prop("disabled", false);
+                            $('.addTransfer_btn .fa-spinner').addClass('d-none');
+                            $("#addTransfer .btn-secondary").click();
+                        }
+                    })
+                }
+            </script>
+        </div>
+    </body>
+</html>

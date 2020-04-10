@@ -1,32 +1,33 @@
 package org.bank.Controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bank.Model.CompteCourant;
 import org.bank.Model.CompteEpargne;
 import org.bank.Repositories.CompteRepository;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class CompteController {
-    final
-    CompteRepository comptes ;
 
+public class CompteController {
+    final CompteRepository comptes ;
     public CompteController(CompteRepository comptes) {
         this.comptes = comptes;
     }
-    @GetMapping("/Comptes/CC/{id}")
+    @GetMapping("/admin/Comptes/CC/{id}")
     public CompteCourant CC(@PathVariable String id){
-        return (CompteCourant)comptes.findById(Long.parseLong(id)).get();
+        return (CompteCourant)comptes.findById(id).get();
     }
-    @GetMapping("/Comptes/CE/{id}")
+    @GetMapping("/admin/Comptes/CE/{id}")
     public CompteEpargne CE(@PathVariable String id){
-        return (CompteEpargne)comptes.findById(Long.parseLong(id)).get();
+        return (CompteEpargne)comptes.findById(id).get();
     }
-    @PostMapping("/Comptes/addCC")
-    public CompteCourant add(@RequestBody CompteCourant cpt){
-        return comptes.save(cpt);
+    @PostMapping("/admin/Comptes/addCC")
+    public String add(@RequestBody CompteCourant cpt) throws JsonProcessingException {
+        return new ObjectMapper().writeValueAsString(comptes.save(cpt));
     }
-    @PostMapping("/Comptes/addCE")
-    public CompteEpargne add(@RequestBody CompteEpargne cpt){
-        return comptes.save(cpt);
+    @PostMapping("/admin/Comptes/addCE")
+    public String add(@RequestBody CompteEpargne cpt) throws JsonProcessingException {
+        return new ObjectMapper().writeValueAsString(comptes.save(cpt));
     }
 }

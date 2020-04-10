@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      data-layout-decorate="layout" lang="fr">
+    <body>
+        <div layout:fragment="content">
+            <br/><br/><br/>
+            <style>
+                .card-img-top{
+                    background-color:rgba(0,0,0,0.03);
+                    padding:5px;
+                    cursor: pointer;
+                }
+                .card-img-top:hover{
+                    background-color: rgba(0,0,0,0.1);
+                    transition-duration: 0.5s;
+                }
+                .card-deck .card{
+                    margin:0px !important;
+                }
+            </style>
+            <!-- Add client modal -->
+            <div class="modal fade" id="addModalCenter" tabindex="-1" role="dialog" aria-labelledby="addModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addModalCenterTitle">Ajouter un client</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="add_form">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="nom">Nom de clients :</label>
+                                    <input type="text" class="form-control" id="nom">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                <button type="submit" class="btn btn-primary add_btn">Valider <i class="fas fa-spinner fa-pulse d-none"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Add Account modal -->
+            <div class="modal fade" id="addAccountModalCenter" tabindex="-1" role="dialog" aria-labelledby="addAccountModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addAccountModalCenterTitle">Ajouter un compte</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="addAccount_form">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="numCompte">Numéro de compte:</label>
+                                    <input type="text" required="required" class="form-control" id="numCompte">
+                                </div>
+                                <div class="form-group">
+                                    <label for="solde">Solde :</label>
+                                    <input type="number" required="required" class="form-control" id="solde">
+                                </div>
+                                <div class="form-group CC">
+                                    <label for="decouvert">Découvert :</label>
+                                    <input type="number" required="required" class="form-control" id="decouvert">
+                                </div>
+                                <div class="form-group CE d-none">
+                                    <label for="taux">Taux :</label>
+                                    <input type="number" class="form-control" id="taux">
+                                </div>
+                                <div class="form-group">
+                                    <label for="type_compte">Type :</label>
+                                    <select class="form-control" id="type_compte" onchange="$('.'+$(this).val()).removeClass('d-none').find('input').attr('required','required');$('.'+(($(this).val() === 'CC')?'CE':'CC')).addClass('d-none').find('input').removeAttr('required');">
+                                        <option th:value="CC" selected="selected">Compte courant</option>
+                                        <option th:value="CE">Compte epargne</option>
+                                    </select>
+                                </div>
+                                <input type="hidden" class="form-control" id="client_code">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                <button type="submit" class="btn btn-primary addAccount_btn">Valider <i class="fas fa-spinner fa-pulse d-none"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--Show account-->
+            <div class="modal fade" id="showAccountModal" tabindex="-1" role="dialog" aria-labelledby="showAccountModalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="showAccountModalTitle">Informations</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table m-auto">
+                                <tr class="sNumCompte">
+                                    <th><span>Numéro de compte</span></th>
+                                    <td> : </td>
+                                    <td><span></span></td>
+                                </tr>
+                                <tr class="sDateCreation">
+                                    <th><span>Date de création</span></th>
+                                    <td> : </td>
+                                    <td><span></span></td>
+                                </tr>
+                                <tr class="sSolde">
+                                    <th><span>Solde</span></th>
+                                    <td> : </td>
+                                    <td><span></span></td>
+                                </tr>
+                                <tr class="sType">
+                                    <th><span></span></th>
+                                    <td> : </td>
+                                    <td><span></span></td>
+                                </tr>
+                                <tr class="sTypeCompte">
+                                    <th><span>Type</span></th>
+                                    <td> : </td>
+                                    <td><span></span></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="/admin/Operations/" class="btn btn-outline-info">Opérations</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="card border-primary mb-3">
+                    <div class="card-header">
+                        <div class="btn btn-outline-primary" data-toggle="modal" data-target="#addModalCenter"><i class="fas fa-user-plus"></i> Ajouter</div>
+                        <form class="form-inline float-right search">
+                            <div class="input-group">
+                                <input name="nom" class="form-control" type="search" placeholder="Nom" aria-label="Chercher">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-body text-primary" tyle="background-color:honeydew;">
+                        <div class="liste">
+                            <div class="card-deck row row-cols-1 row-cols-md-4" th:fragment="liste">
+                                <div class="col mb-4" th:each="c:${clients}">
+                                    <div class="card">
+                                        <img th:src="${'/images/avatars/'+c.nom+'.png'}" class="card-img-top" th:alt="${c.nom}">
+                                        <div class="card-body">
+                                            <div class="dropdown float-right">
+                                                <button class="btn btn-outline-dark pb-0 pt-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fas fa-ellipsis-h"></i>
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <h6 class="dropdown-header" th:if="${c.comptes.size() > 0}">Comptes</h6>
+                                                    <a class="dropdown-item" data-toggle="modal" data-target="#showAccountModal" th:if="${c.comptes.size() > 0}" th:each="acc:${c.comptes}" href="#" th:onclick="'showAccount(\'' + ${acc+','+acc.numCompte+','+acc.solde+','+acc.dateCreation} + '\');'" th:text="${acc.numCompte}"></a>
+                                                    <h6 class="dropdown-header">Actions</h6>
+                                                    <a class="dropdown-item" data-toggle="modal" data-target="#addAccountModalCenter" href="#" th:onclick="'$(\'#client_code\').val(\''+${c.code}+'\');'">Ajouter</a>
+                                                </div>
+                                            </div>
+                                            <h5 class="card-title" style="margin: 0px;" th:text="${c.nom}"></h5>
+                                        </div>
+                                        <div class="card-footer">
+                                            <small class="text-muted" th:text="${'Le nombre de compte bancaire : '+c.comptes.size()}"></small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $(function(){
+                    $('ul.navbar-nav li').eq(0).addClass('active');
+                    $("#add_form").submit(function (event) {
+                        event.preventDefault();
+                        addClt();
+                    });
+                    $("form.search").submit(function (event) {
+                        event.preventDefault();
+                        loadData("?type=other&nom="+$(this).find("input").val());
+                    });
+                    $("#addAccount_form").submit(function (event) {
+                        event.preventDefault();
+                        addAccount();
+                    });
+                });
+                function addClt(){
+                    let btn = $('.add_btn');
+                    $('#nom').removeClass('is-invalid');
+                    if($('#nom').val().trim() !== ''){
+                        btn.prop("disabled", true);
+                        $('#add_form .fa-spinner').removeClass('d-none');
+                        $('#nom').addClass('is-valid');
+
+                        $.ajax({
+                            type: "POST",
+                            contentType : 'application/json; charset=utf-8',
+                            dataType: 'json',
+                            url: "/admin/Clients/add",
+                            data: JSON.stringify({ "code":"0","nom" : $("#nom").val() }),
+                            success: function (dt) {
+                                loadData("?type=other");
+                                setTimeout(function(){
+                                    btn.prop("disabled", false);
+                                    $('#add_form .fa-spinner').addClass('d-none');
+                                    $('#nom').removeClass('is-valid');
+                                    $("#add_form .btn-secondary").click();
+                                },1000);
+                            },
+                            error: function (result) {
+                                console.log(result.responseJSON);
+                                btn.prop("disabled", false);
+                                $('#add_form .fa-spinner').addClass('d-none');
+                                $('#nom').removeClass('is-valid');
+                            },
+                            complete:function(){
+
+                            }
+                        });
+                    }
+                    else $('#nom').addClass('is-invalid');
+                }
+                function addAccount(){
+                    let btn = $('.addAccount_btn');
+                    btn.prop("disabled", true);
+                    $('#addAccount_form .fa-spinner').removeClass('d-none');
+                    let obj = {
+                        "numCompte":$("#numCompte").val(),
+                        "solde":$("#solde").val(),
+                        "client":{
+                            "code":$("#client_code").val()
+                        }
+                    };
+                    if($("#type_compte").val() === 'CC') obj["decouvert"] = $('#decouvert').val();
+                    else obj["taux"] = $('#taux').val();
+                    console.log(JSON.stringify(obj));
+                    $.ajax({
+                        type: "POST",
+                        contentType : 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        url: "/admin/Comptes/add"+$("#type_compte").val(),
+                        data: JSON.stringify(obj),
+                        success: function (dt) {
+                            loadData("?type=other");
+                            setTimeout(function(){
+                                btn.prop("disabled", false);
+                                $('#addAccount_form .fa-spinner').addClass('d-none');
+                                $("#addAccount_form .btn-secondary").click();
+                            },1000);
+                        },
+                        error: function (result) {
+                            console.log(result.responseJSON);
+                            btn.prop("disabled", false);
+                            $('#addAccount_form .fa-spinner').addClass('d-none');
+                        }
+                    });
+                }
+                function loadData(params){
+                    $.ajax({
+                        type: 'get',
+                        url: '/admin/Clients'+params,
+                        success: function(data){
+                            $('.liste').html(data);
+                        },
+                    })
+                }
+                function showAccount(c){
+                    let tmp = c.split(',');
+                    $('tr.sNumCompte td span').text(tmp[1]);
+                    $('tr.sDateCreation td span').text(tmp[3]);
+                    $('tr.sSolde td span').text(tmp[2]);
+                    $('tr.sTypeCompte td span').text((tmp[0].indexOf('CompteCourant') !== -1)?'Compte courant':'Compte epargne');
+                    $('tr.sType th span').text((tmp[0].indexOf('decouvert') !== -1)?'Découvert':'Taux');
+                    $('tr.sType td span').text(tmp[0].split('=')[1].substr(0,tmp[0].split('=')[1].indexOf(')')));
+                    $("#showAccountModal .modal-footer a").attr("href","/admin/Operations/"+tmp[1]);
+                }
+            </script>
+        </div>
+    </body>
+</html>

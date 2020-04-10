@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>Gestion des comptes bancaires</title>
+        <link href="/webjars/bootstrap/4.4.1-1/css/bootstrap.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="/webjars/font-awesome/5.13.0/css/all.css">
+
+        <script src="/webjars/jquery/3.4.1/jquery.js" type="application/javascript"></script>
+        <script src="/webjars/popper.js/2.0.2/umd/popper.js" type="application/javascript"></script>
+        <script src="/webjars/bootstrap/4.4.1-1/js/bootstrap.bundle.min.js" type="application/javascript"></script>
+        <script src="/webjars/font-awesome/5.13.0/js/all.js" type="application/javascript"></script>
+    </head>
+    <body>
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand p-0" href="/">
+                <img src="/images/icon.png" width="40" height="40" alt="Icone">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/Clients">Clients</a>
+                    </li>
+                </ul>
+                <a href="/logout" class="btn btn-outline-light my-2 my-lg-0"><i class="fas fa-sign-out-alt"></i></a>
+            </div>
+        </nav>
+        <section layout:fragment="content">
+
+        </section>
+    </body>
+</html>
