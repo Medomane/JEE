@@ -1,6 +1,7 @@
 package org.cinema.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,14 +26,17 @@ public class Projection {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "roomId",nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Room room;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "filmId",nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Film film;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sessionId",nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Session session;
 
     @OneToMany(mappedBy = "projection",fetch = FetchType.LAZY)

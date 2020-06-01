@@ -1,5 +1,6 @@
 package org.cinema.Model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,10 +24,12 @@ public class Ticket {
     private boolean reserved;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "placeId",nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Place place;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "projectionId",nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Projection projection;
 }

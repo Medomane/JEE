@@ -1,6 +1,6 @@
 package org.cinema.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,8 +11,6 @@ import java.util.List;
 
 @Entity
 @Data
-//@JsonIgnoreProperties({"hibernateLazyInitializer","handler","places"},{"hibernateLazyInitializer","handler","projections"})
-@JsonIgnoreProperties(ignoreUnknown=true, value={"hibernateLazyInitializer", "handler"})
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -24,6 +22,7 @@ public class Room {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cinemaId",nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Cinema cinema;
 
     @OneToMany(mappedBy = "room",fetch = FetchType.LAZY)
