@@ -1,6 +1,7 @@
 package org.backend.Controller;
 
 import org.backend.Repository.CityRepository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController

@@ -22,13 +22,13 @@ public class Ticket {
     @Column(unique = true)
     private int paymentCode ;
     private boolean reserved;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "placeId",nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Place place;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "projectionId",nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Projection projection;

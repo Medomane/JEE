@@ -1,0 +1,56 @@
+<div class="container-fluid mt-2">
+  <div class="row">
+    <div class="col-md-2">
+      <div class="list-group" *ngIf="cities">
+        <a [ngClass]="v==this.currentCity?'active disabled':''" routerLink="#" class="list-group-item list-group-item-action" *ngFor="let v of cities" (click)="onGetCinemas(v)">
+          {{v.name}}
+        </a>
+      </div>
+    </div>
+    <div class="col-md-10">
+      <div class="card border-dark mb-3" style="width: 100%;">
+        <div class="card-header">Liste des cinémas</div>
+        <div class="card-body text-dark">
+          <ul class="nav nav-pills" *ngIf="cinemas">
+            <li *ngFor="let c of cinemas" class="nav-item">
+              <a [ngClass]="c==this.currentCinema?'active':''" (click)="onGetRooms(c)" class="nav-link" routerLink="#">{{c.name}}</a>
+            </li>
+          </ul>
+
+          <div *ngIf="rooms" class="row mt-3">
+            <div *ngFor="let r of rooms" class="col-md-6">
+              <div class="card border-primary mb-2">
+                <div class="card-header">{{r.name}}</div>
+                <div class="card-body text-primary" *ngIf="r.projections">
+                  <div *ngIf="r.projections[0]" class="row container-fluid m-auto">
+                    <div class="col-md-6">
+                      <img src="{{cinemaService.host+'image/'+r.projections[0].film.id}}" style="max-width:100%;">
+                    </div>
+                    <div class="col-md-6">
+                      <div class="alert alert-info mb-0">Projections</div>
+                      <div class="list-group">
+                        <a [ngClass]="p==this.currentProjection?'active disabled':''" (click)="onGetTicketsPlace(p)" routerLink="#" class="list-group-item list-group-item-action" *ngFor="let p of r.projections">
+                          {{p.session.date}}
+                        </a>
+                      </div>
+                    </div>
+                    <form class="w-100" #f="ngForm" (ngSubmit)="onPayTickets(f.value)" *ngIf="selectedTickets && selectedTickets.length>0">
+                      <div class="form-group row">
+                        <label for="clientName">Nom de client :</label>
+                        <input type="text" class="form-control col-md-10" id="clientName" name="clientName" placeholder="Nom de client" ngModel>
+                        <button type="submit" class="btn btn-primary col-md-2">Réserver</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div class="card-footer" *ngIf="this.tickets && r.projections[0]==this.currentProjection">
+                  <button (click)="onSelect(t)" [disabled]="t.reserved" [ngClass]="t.reserved?'btn btn-warning':t.selected?'btn btn-danger':'btn btn-outline-dark'" *ngFor="let t of this.tickets" type="button">{{t.place.number}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

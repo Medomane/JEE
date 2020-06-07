@@ -13,7 +13,7 @@ import java.util.List;
 
 @Entity
 @Data
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler","tickets"})
+//@JsonIgnoreProperties({"hibernateLazyInitializer","handler","tickets"})
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -22,23 +22,22 @@ public class Projection {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id ;
     private Date date;
-    private double price ;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "roomId",nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Room room;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "filmId",nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Film film;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "sessionId",nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Session session;
 
-    @OneToMany(mappedBy = "projection",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "projection")
     private List<Ticket> tickets ;
 }
