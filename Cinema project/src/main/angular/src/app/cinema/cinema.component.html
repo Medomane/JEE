@@ -36,7 +36,6 @@
                     </div>
                     <form class="w-100" #f="ngForm" (ngSubmit)="onPayTickets(f.value)" *ngIf="selectedTickets && selectedTickets.length>0">
                       <div class="form-group row">
-                        <label for="clientName">Nom de client :</label>
                         <input type="text" class="form-control col-md-10" id="clientName" name="clientName" placeholder="Nom de client" ngModel>
                         <button type="submit" class="btn btn-primary col-md-2">Réserver</button>
                       </div>

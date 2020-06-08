@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {CinemaService} from "../services/cinema.service";
+import Swal from 'sweetalert2';
 import {NgForm} from "@angular/forms";
 
 @Component({
@@ -68,6 +69,14 @@ export class CinemaComponent implements OnInit {
     });
     f.tickets = ts;
     this.cinemaService.payTickets(f)
-      .subscribe(data=>{ alert('Success') ;this.selectedTickets=[];this.onGetTicketsPlace(this.currentProjection); }, error => { console.error(error) ; });
+      .subscribe(data=>{
+        Swal.fire(
+          'Information',
+          'Vous avez payé vos tickets avec succès',
+          'success'
+        );
+        this.selectedTickets=[];
+        this.onGetTicketsPlace(this.currentProjection);
+        }, error => { console.error(error) ; });
   }
 }
